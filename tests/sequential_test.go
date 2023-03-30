@@ -17,10 +17,12 @@ func TestSequential(t *testing.T) {
 	workerCount := 2
 	workerCtx := worker.Context[taskWithFn]{Todo: todo, Ready: ready}
 	done := make(map[string]struct{}, workerCount)
-	startWorkers(workerCount, workerCtx, func(t taskWithFn) {
+	startWorkers(workerCount, workerCtx, func(t taskWithFn) error {
 		time.Sleep(1 * time.Second)
 		t.execute()
 		done[t.name] = struct{}{}
+
+		return nil
 	})
 
 	masterCtx := master.Context[taskWithFn]{Todo: todo, Ready: ready}

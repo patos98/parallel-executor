@@ -1,19 +1,19 @@
 package worker
 
 type Worker[T any] interface {
-	work(T)
+	work(T) error
 }
 
-type WorkerFn[T any] func(task T)
+type WorkerFn[T any] func(task T) error
 
-func (workerFn WorkerFn[T]) work(task T) {
-	workerFn(task)
+func (workerFn WorkerFn[T]) work(task T) error {
+	return workerFn(task)
 }
 
 func StartNew[T any](ctx Context[T], w Worker[T]) {
 	tasks := make(chan T)
 	defer close(tasks)
-	done := make(chan struct{})
+	done := make(chan error)
 	defer close(done)
 
 	for range ctx.Todo {
@@ -22,7 +22,7 @@ func StartNew[T any](ctx Context[T], w Worker[T]) {
 			done:  done,
 		}
 		currentTask := <-tasks
-		w.work(currentTask)
-		done <- struct{}{}
+		err := w.work(currentTask)
+		done <- err
 	}
 }

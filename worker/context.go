@@ -4,11 +4,11 @@ import "parallel-executor/master"
 
 type TaskChannels[T any] struct {
 	tasks chan<- T
-	done  <-chan struct{}
+	done  <-chan error
 }
 
-func (tc TaskChannels[T]) Tasks() chan<- T       { return tc.tasks }
-func (tc TaskChannels[T]) Done() <-chan struct{} { return tc.done }
+func (tc TaskChannels[T]) Tasks() chan<- T    { return tc.tasks }
+func (tc TaskChannels[T]) Done() <-chan error { return tc.done }
 
 type Context[T any] struct {
 	Todo  <-chan struct{}

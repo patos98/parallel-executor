@@ -21,7 +21,7 @@ func TestParallel(t *testing.T) {
 	doneMutex := sync.Mutex{}
 	done := make(map[string]struct{}, workerCount)
 	workerCtx := worker.Context[taskWithFn]{Todo: todo, Ready: ready}
-	startWorkers(workerCount, workerCtx, func(t taskWithFn) {
+	startWorkers(workerCount, workerCtx, func(t taskWithFn) error {
 		startedMutex.Lock()
 		started[t.name] = struct{}{}
 		startedMutex.Unlock()
@@ -35,6 +35,8 @@ func TestParallel(t *testing.T) {
 		doneMutex.Lock()
 		done[t.name] = struct{}{}
 		doneMutex.Unlock()
+
+		return nil
 	})
 
 	masterCtx := master.Context[taskWithFn]{Todo: todo, Ready: ready}

@@ -15,10 +15,12 @@ func TestWrapper(t *testing.T) {
 
 	var status string
 	workerCtx := worker.Context[taskWithFn]{Todo: todo, Ready: ready}
-	startWorker(workerCtx, func(task taskWithFn) {
+	startWorker(workerCtx, func(task taskWithFn) error {
 		if status != "Task started" {
 			t.Error("Wrapper function has not run!")
 		}
+
+		return nil
 	})
 
 	masterCtx := master.Context[taskWithFn]{Todo: todo, Ready: ready}

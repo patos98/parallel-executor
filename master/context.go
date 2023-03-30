@@ -2,7 +2,7 @@ package master
 
 type TaskChannels[T any] interface {
 	Tasks() chan<- T
-	Done() <-chan struct{}
+	Done() <-chan error
 }
 
 type Context[T any] struct {
