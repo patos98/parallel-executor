@@ -12,6 +12,6 @@ func NewSingle[T any](task T) *SingleExecutor[T] {
 	return &SingleExecutor[T]{task: task}
 }
 
-func (se *SingleExecutor[T]) Execute(executorFn master.ExecutorFn[T]) {
+func (se *SingleExecutor[T]) Execute(executorFn master.ExecutableFn[T]) {
 	executorFn(se.task)
 }

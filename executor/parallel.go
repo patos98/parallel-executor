@@ -15,7 +15,7 @@ func NewParallel[T any](executors []master.Executor[T]) *ParallelExecutor[T] {
 	return &ParallelExecutor[T]{executors: executors}
 }
 
-func (pe *ParallelExecutor[T]) Execute(executorFn master.ExecutorFn[T]) {
+func (pe *ParallelExecutor[T]) Execute(executorFn master.ExecutableFn[T]) {
 	var wg sync.WaitGroup
 	for _, tasks := range pe.executors {
 		wg.Add(1)

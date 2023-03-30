@@ -1,9 +1,9 @@
 package master
 
-type ExecutorFn[T any] func(T)
+type ExecutableFn[T any] func(T)
 
 type Executor[T any] interface {
-	Execute(ExecutorFn[T])
+	Execute(ExecutableFn[T])
 }
 
 func StartNew[T any](ctx Context[T], executor Executor[T]) {
