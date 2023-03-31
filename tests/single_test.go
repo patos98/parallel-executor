@@ -15,10 +15,9 @@ func TestSingle(t *testing.T) {
 
 	done := false
 	workerCtx := worker.Context[task]{Todo: todo, Ready: ready}
-	startWorker(workerCtx, func(t task) error {
+	startWorker(workerCtx, func(t task) (result task, err error) {
 		done = true
-
-		return nil
+		return
 	})
 
 	masterCtx := master.Context[task]{Todo: todo, Ready: ready}

@@ -1,8 +1,13 @@
 package master
 
+type TaskDoneMessage[T any] struct {
+	Task T
+	Err  error
+}
+
 type TaskChannels[T any] interface {
 	Tasks() chan<- T
-	Done() <-chan error
+	Done() <-chan TaskDoneMessage[T]
 }
 
 type Context[T any] struct {

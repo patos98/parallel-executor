@@ -16,7 +16,7 @@ func TestError(t *testing.T) {
 
 	counter := 0
 	workerCtx := worker.Context[task]{Todo: todo, Ready: ready}
-	startWorker(workerCtx, func(t task) (err error) {
+	startWorker(workerCtx, func(t task) (result task, err error) {
 		counter++
 		if counter < 4 {
 			// by default master will retry to execute task with worker
