@@ -1,10 +1,11 @@
 package tests
 
 import (
-	"parallel-executor/executor"
-	"parallel-executor/master"
 	"reflect"
 	"testing"
+
+	"github.com/patos98/parallel-executor/executor"
+	"github.com/patos98/parallel-executor/master"
 )
 
 func TestParserJson(t *testing.T) {

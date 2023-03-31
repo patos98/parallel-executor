@@ -1,6 +1,6 @@
 package tests
 
-import "parallel-executor/worker"
+import "github.com/patos98/parallel-executor/worker"
 
 func startWorkers[T any](workerCount int, ctx worker.Context[T], workerFn func(T) (T, error)) {
 	for i := 0; i < workerCount; i++ {

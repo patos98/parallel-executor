@@ -1,4 +1,4 @@
-module parallel-executor
+module github.com/patos98/parallel-executor
 
 go 1.20
 

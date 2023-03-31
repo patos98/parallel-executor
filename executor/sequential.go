@@ -1,6 +1,6 @@
 package executor
 
-import "parallel-executor/master"
+import "github.com/patos98/parallel-executor/master"
 
 type SequentialExecutor[T any] struct {
 	executors []master.Executor[T]

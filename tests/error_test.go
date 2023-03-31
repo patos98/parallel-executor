@@ -2,10 +2,11 @@ package tests
 
 import (
 	"errors"
-	"parallel-executor/executor"
-	"parallel-executor/master"
-	"parallel-executor/worker"
 	"testing"
+
+	"github.com/patos98/parallel-executor/executor"
+	"github.com/patos98/parallel-executor/master"
+	"github.com/patos98/parallel-executor/worker"
 )
 
 func TestError(t *testing.T) {

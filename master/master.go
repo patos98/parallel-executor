@@ -1,6 +1,6 @@
 package master
 
-import "parallel-executor/logger"
+import "github.com/patos98/parallel-executor/logger"
 
 type ExecutableFn[T any] func(T) T
 

@@ -1,10 +1,11 @@
 package tests
 
 import (
-	"parallel-executor/executor"
-	"parallel-executor/master"
-	"parallel-executor/worker"
 	"testing"
+
+	"github.com/patos98/parallel-executor/executor"
+	"github.com/patos98/parallel-executor/master"
+	"github.com/patos98/parallel-executor/worker"
 )
 
 func TestSingle(t *testing.T) {

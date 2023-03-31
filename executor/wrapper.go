@@ -1,6 +1,6 @@
 package executor
 
-import "parallel-executor/master"
+import "github.com/patos98/parallel-executor/master"
 
 type WrapperFn[T any] func(task T, executorFn master.ExecutableFn[T]) T
 

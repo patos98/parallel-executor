@@ -1,6 +1,6 @@
 package worker
 
-import "parallel-executor/master"
+import "github.com/patos98/parallel-executor/master"
 
 type Worker[T any] interface {
 	work(T) (T, error)

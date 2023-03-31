@@ -1,8 +1,9 @@
 package executor
 
 import (
-	"parallel-executor/master"
 	"sync"
+
+	"github.com/patos98/parallel-executor/master"
 )
 
 type ParallelExecutor[T any] struct {

@@ -4,7 +4,8 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"parallel-executor/master"
+
+	"github.com/patos98/parallel-executor/master"
 )
 
 const (
