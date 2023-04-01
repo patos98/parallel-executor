@@ -8,7 +8,7 @@ import (
 )
 
 type RemoteConfig struct {
-	workerUrl string
+	WorkerUrl string
 }
 
 func StartNewRemote[T any](ctx Context[T], cfg RemoteConfig) {
@@ -18,7 +18,7 @@ func StartNewRemote[T any](ctx Context[T], cfg RemoteConfig) {
 			return
 		}
 
-		resp, err := http.Post(cfg.workerUrl, "application/json", bytes.NewReader(payload))
+		resp, err := http.Post(cfg.WorkerUrl, "application/json", bytes.NewReader(payload))
 		if err != nil {
 			return
 		}
