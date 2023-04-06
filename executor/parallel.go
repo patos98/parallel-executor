@@ -16,14 +16,14 @@ func NewParallel[T any](executors []master.Executor[T]) *ParallelExecutor[T] {
 	return &ParallelExecutor[T]{executors: executors}
 }
 
-func (pe *ParallelExecutor[T]) Execute(executorFn master.ExecutableFn[T]) {
+func (pe *ParallelExecutor[T]) Execute(params master.ExecutorParams[T]) {
 	var wg sync.WaitGroup
-	for _, tasks := range pe.executors {
+	for _, executor := range pe.executors {
 		wg.Add(1)
-		tasks := tasks // avoid re-use of the same value in each goroutine closure
+		executor := executor // avoid re-use of the same value in each goroutine closure
 		go func() {
 			defer wg.Done()
-			tasks.Execute(executorFn)
+			executor.Execute(params)
 		}()
 	}
 	wg.Wait()

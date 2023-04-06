@@ -9,8 +9,9 @@ import (
 )
 
 const (
-	EXECUTOR_TYPE_SEQUENTIAL = "SEQUENTIAL"
-	EXECUTOR_TYPE_PARALLEL   = "PARALLEL"
+	EXECUTOR_TYPE_SEQUENTIAL       = "SEQUENTIAL"
+	EXECUTOR_TYPE_PARALLEL         = "PARALLEL"
+	EXECUTOR_TYPE_PARALLEL_ORDERED = "PARALLEL_ORDERED"
 )
 
 type genericExecutor[T any] struct {
@@ -46,6 +47,8 @@ func convertGenericExecutor[T comparable](executor genericExecutor[T]) (result m
 		result = NewSequential(executors)
 	case EXECUTOR_TYPE_PARALLEL:
 		result = NewParallel(executors)
+	case EXECUTOR_TYPE_PARALLEL_ORDERED:
+		result = NewParallelOrdered(executors)
 	default:
 		err = errors.New(fmt.Sprint("Unknown executor type: ", executor.ExecutorType))
 	}

@@ -12,6 +12,9 @@ func NewSingle[T any](task T) *SingleExecutor[T] {
 	return &SingleExecutor[T]{task: task}
 }
 
-func (se *SingleExecutor[T]) Execute(executorFn master.ExecutableFn[T]) {
-	executorFn(se.task)
+func (se *SingleExecutor[T]) Execute(params master.ExecutorParams[T]) {
+	params.ExecutableFn(master.ExecutableFnParams[T]{
+		Task:             se.task,
+		AfterTaskStarted: params.AfterTaskStarted,
+	})
 }

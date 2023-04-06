@@ -22,7 +22,14 @@ func TestParserJson(t *testing.T) {
 				]
 			},
 			{ "task": "Task 5" },
-			{ "task": "Task 6" }
+			{ "task": "Task 6" },
+			{
+				"type": "PARALLEL_ORDERED",
+				"executors": [
+					{ "task": "Task 7" },
+					{ "task": "Task 8" }
+				]
+			}
 		]
 	}`
 
@@ -35,6 +42,10 @@ func TestParserJson(t *testing.T) {
 		}),
 		executor.NewSingle("Task 5"),
 		executor.NewSingle("Task 6"),
+		executor.NewParallelOrdered([]master.Executor[string]{
+			executor.NewSingle("Task 7"),
+			executor.NewSingle("Task 8"),
+		}),
 	})
 
 	parsedExecutor, err := executor.FromJson[string]([]byte(executorJson))
@@ -43,6 +54,6 @@ func TestParserJson(t *testing.T) {
 	}
 
 	if !reflect.DeepEqual(expectedExecutor, parsedExecutor) {
-		t.Errorf("Parsed executor does not match expected!\nexpected: %#v\nparsed: %#v", expectedExecutor, parsedExecutor)
+		t.Fatalf("Parsed executor does not match expected!\nexpected: %#v\nparsed: %#v", expectedExecutor, parsedExecutor)
 	}
 }

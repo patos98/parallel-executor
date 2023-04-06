@@ -26,11 +26,11 @@ func TestWrapper(t *testing.T) {
 
 	masterCtx := master.Context[task]{Todo: todo, Ready: ready}
 	original := executor.NewSingle(task{name: "Single Task"})
-	wrapperFn := func(task task, executorFn master.ExecutableFn[task]) task {
+	wrapperFn := func(executableFnParams master.ExecutableFnParams[task], executorParams master.ExecutorParams[task]) task {
 		status = "Task started"
-		task = executorFn(task)
+		task := executorParams.ExecutableFn(executableFnParams)
 		if task.name != "Single Task Done" {
-			t.Errorf("ExecutorFn returned task in wrong state: %#v", task)
+			t.Errorf("ExecutableFn returned task in wrong state: %#v", task)
 		}
 
 		status = "Task ended"

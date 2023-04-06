@@ -2,16 +2,19 @@ package executor
 
 import "github.com/patos98/parallel-executor/master"
 
-type WrapperFn[T any] func(task T, executorFn master.ExecutableFn[T]) T
+type WrapperFn[T any] func(executableFnParams master.ExecutableFnParams[T], executorParams master.ExecutorParams[T]) T
 
 type wrapper[T any] struct {
 	executor  master.Executor[T]
 	wrapperFn WrapperFn[T]
 }
 
-func (w *wrapper[T]) Execute(executorFn master.ExecutableFn[T]) {
-	w.executor.Execute(func(task T) T {
-		return w.wrapperFn(task, executorFn)
+func (w *wrapper[T]) Execute(executorParams master.ExecutorParams[T]) {
+	w.executor.Execute(master.ExecutorParams[T]{
+		ExecutableFn: func(executableFnParams master.ExecutableFnParams[T]) T {
+			return w.wrapperFn(executableFnParams, executorParams)
+		},
+		AfterTaskStarted: executorParams.AfterTaskStarted,
 	})
 }
 
