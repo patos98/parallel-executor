@@ -8,6 +8,12 @@ import (
 	"github.com/patos98/parallel-executor/master"
 )
 
+type comparableString string
+
+func (s comparableString) Equals(other comparableString) bool {
+	return s == other
+}
+
 func TestParserJson(t *testing.T) {
 	executorJson := `{
 		"type": "SEQUENTIAL",
@@ -33,22 +39,22 @@ func TestParserJson(t *testing.T) {
 		]
 	}`
 
-	expectedExecutor := executor.NewSequential([]master.Executor[string]{
-		executor.NewSingle("Task 1"),
-		executor.NewSingle("Task 2"),
-		executor.NewParallel([]master.Executor[string]{
-			executor.NewSingle("Task 3"),
-			executor.NewSingle("Task 4"),
+	expectedExecutor := executor.NewSequential([]master.Executor[comparableString]{
+		executor.NewSingle(comparableString("Task 1")),
+		executor.NewSingle(comparableString("Task 2")),
+		executor.NewParallel([]master.Executor[comparableString]{
+			executor.NewSingle(comparableString("Task 3")),
+			executor.NewSingle(comparableString("Task 4")),
 		}),
-		executor.NewSingle("Task 5"),
-		executor.NewSingle("Task 6"),
-		executor.NewParallelOrdered([]master.Executor[string]{
-			executor.NewSingle("Task 7"),
-			executor.NewSingle("Task 8"),
+		executor.NewSingle(comparableString("Task 5")),
+		executor.NewSingle(comparableString("Task 6")),
+		executor.NewParallelOrdered([]master.Executor[comparableString]{
+			executor.NewSingle(comparableString("Task 7")),
+			executor.NewSingle(comparableString("Task 8")),
 		}),
 	})
 
-	parsedExecutor, err := executor.FromJson[string]([]byte(executorJson))
+	parsedExecutor, err := executor.FromJson[comparableString]([]byte(executorJson))
 	if err != nil {
 		t.Fatal(err)
 	}

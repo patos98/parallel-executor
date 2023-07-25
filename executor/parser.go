@@ -14,13 +14,17 @@ const (
 	EXECUTOR_TYPE_PARALLEL_ORDERED = "PARALLEL_ORDERED"
 )
 
+type Comparable[T any] interface {
+	Equals(other T) bool
+}
+
 type genericExecutor[T any] struct {
 	ExecutorType string               `json:"type"`
 	Task         T                    `json:"task"`
 	Executors    []genericExecutor[T] `json:"executors"`
 }
 
-func FromJson[T comparable](content []byte) (master.Executor[T], error) {
+func FromJson[T Comparable[T]](content []byte) (master.Executor[T], error) {
 	var executor genericExecutor[T]
 	err := json.Unmarshal(content, &executor)
 	if err != nil {
@@ -30,9 +34,9 @@ func FromJson[T comparable](content []byte) (master.Executor[T], error) {
 	return convertGenericExecutor(executor)
 }
 
-func convertGenericExecutor[T comparable](executor genericExecutor[T]) (result master.Executor[T], err error) {
+func convertGenericExecutor[T Comparable[T]](executor genericExecutor[T]) (result master.Executor[T], err error) {
 	var emptyTask T
-	if executor.Task != emptyTask {
+	if !executor.Task.Equals(emptyTask) {
 		result = NewSingle(executor.Task)
 		return
 	}
@@ -56,7 +60,7 @@ func convertGenericExecutor[T comparable](executor genericExecutor[T]) (result m
 	return
 }
 
-func convertGenericExecutors[T comparable](executors []genericExecutor[T]) (result []master.Executor[T], err error) {
+func convertGenericExecutors[T Comparable[T]](executors []genericExecutor[T]) (result []master.Executor[T], err error) {
 	for _, executor := range executors {
 		var e master.Executor[T]
 		e, err = convertGenericExecutor(executor)
